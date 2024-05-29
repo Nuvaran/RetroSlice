@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using static RetroSlice.Program;
 
 namespace RetroSlice
 {
@@ -31,50 +33,80 @@ namespace RetroSlice
         // Storing applicant's details in a collection method and displaying it
         public static void ApplicantDetails()
         {
+            bool continueAddingCustomers = true;
 
-            Customer newCustomer = new Customer(); // Creating an instance of the Applicants List called newApplicant
-
-            Console.WriteLine("Enter your name:");
-            newCustomer.name = Console.ReadLine();
-
-            Console.WriteLine("Enter your age:");
-            newCustomer.age = int.Parse(Console.ReadLine());
-
-            Console.WriteLine("Enter your highest rank score");
-            newCustomer.highScoreRank = int.Parse(Console.ReadLine());
-
-            Console.WriteLine("Enter the number of pizza's consumed since the first visit");
-            newCustomer.noOfPizzasConsumed = int.Parse(Console.ReadLine());
-
-            Console.WriteLine("Enter your bowling high score");
-            newCustomer.bowlingHighScore = int.Parse(Console.ReadLine());
-
-            Console.WriteLine("Enter you favourite slush puppy flavor");
-            newCustomer.slushPuppyFlavor = Console.ReadLine();
-
-            Console.WriteLine("Enter the number of slush puppies consumed since the first visit");
-            newCustomer.slushPuppiesConsumed = int.Parse(Console.ReadLine());
-
-            Console.WriteLine("Are you employed, if yes enter true, if no enter false");
-            newCustomer.isEmployed = bool.Parse(Console.ReadLine());
-
-            Console.WriteLine("Enter the start date as a loyal customer (yyyy-MM-dd)");
-            newCustomer.startDate = DateTime.Parse(Console.ReadLine());
-
-            customers.Add(newCustomer);
-
-            Console.WriteLine("Customer added successfully!\n");
-
-            Console.WriteLine("\nList of Customers:");
-            foreach (var applicants in customers)
+            while (continueAddingCustomers)
             {
-                Console.WriteLine($"Name: {newCustomer.name}, Age: {newCustomer.age}, High Score Rank: {newCustomer.highScoreRank}," +
-                    $" Start Date: {newCustomer.startDate.ToShortDateString()}, Pizzas Consumed: {newCustomer.noOfPizzasConsumed}, Bowling High Score: {newCustomer.bowlingHighScore}, " +
-                    $"Employed: {newCustomer.isEmployed}, Slush Puppy Flavor: {newCustomer.slushPuppyFlavor}, Slush Puppies Consumed: {newCustomer.slushPuppiesConsumed}");
-            }
+                Customer newCustomer = new Customer();
 
+                Console.Write("Enter your name: ");
+                newCustomer.name = Console.ReadLine();
+
+                Console.Write("Enter your age: ");
+                newCustomer.age = int.Parse(Console.ReadLine());
+
+                Console.Write("Enter your highest rank score: ");
+                newCustomer.highScoreRank = int.Parse(Console.ReadLine());
+
+                Console.Write("Enter the number of pizzas consumed since the first visit: ");
+                newCustomer.noOfPizzasConsumed = int.Parse(Console.ReadLine());
+
+                Console.Write("Enter your bowling high score: ");
+                newCustomer.bowlingHighScore = int.Parse(Console.ReadLine());
+
+                Console.Write("Enter your favourite slush puppy flavor: ");
+                newCustomer.slushPuppyFlavor = Console.ReadLine();
+
+                Console.Write("Enter the number of slush puppies consumed since the first visit: ");
+                newCustomer.slushPuppiesConsumed = int.Parse(Console.ReadLine());
+
+                Console.Write("Are you employed? (true/false): ");
+                newCustomer.isEmployed = bool.Parse(Console.ReadLine());
+
+                Console.Write("Enter the start date as a loyal customer (yyyy-MM-dd): ");
+                newCustomer.startDate = DateTime.Parse(Console.ReadLine());
+
+                customers.Add(newCustomer);
+
+                Console.ForegroundColor = ConsoleColor.Green;
+                Console.WriteLine("\nCustomer added successfully!\n");
+
+                Console.ForegroundColor = ConsoleColor.Magenta;
+                Console.WriteLine("\nList of Customers:");
+
+                // Print table header
+                string header = string.Format(
+                    "| {0,-20} | {1,-5} | {2,-15} | {3,-12} | {4,-18} | {5,-18} | {6,-10} | {7,-15} | {8,-25} |",
+                    "Name", "Age", "High Score", "Start Date", "Pizzas Consumed", "Bowling High Score",
+                    "Employed", "Slush Puppy Flavor", "Slush Puppies Consumed"
+                );
+
+                Console.WriteLine(header);
+                Console.WriteLine(new string('-', header.Length));
+
+                // Print table rows for all customers in the list
+                foreach (var applicant in customers)
+                {
+                    string row = string.Format(
+                        "| {0,-20} | {1,-5} | {2,-15} | {3,-12:yyyy-MM-dd} | {4,-18} | {5,-18} | {6,-10} | {7,-15} | {8,-25} |",
+                        applicant.name, applicant.age, applicant.highScoreRank, applicant.startDate,
+                        applicant.noOfPizzasConsumed, applicant.bowlingHighScore, applicant.isEmployed,
+                        applicant.slushPuppyFlavor, applicant.slushPuppiesConsumed);
+
+                    Console.WriteLine(row);
+                }
+
+                Console.Write("\nDo you want to add another customer? (Y/N): ");
+                string response = Console.ReadLine().ToUpper();
+
+                if (response != "Y")
+                {
+                    continueAddingCustomers = false;
+                }
+            }
         }
 
+        
         // Method for the menu
 
         public enum Menu
@@ -97,6 +129,7 @@ namespace RetroSlice
 
         public static void MenuOption()
         {
+            Console.ForegroundColor = ConsoleColor.Cyan;
             while (true)
             {
                 DisplayMenu();
@@ -123,10 +156,30 @@ namespace RetroSlice
                     Console.WriteLine("Invalid input, please enter a valid menu option.");
                 }
             }
-        } 
+        }
+
+        private static void SetConsoleTheme()
+        {
+            Console.BackgroundColor = ConsoleColor.Black;
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.Clear();
+        }
+
+        private static void ShowArcadeHeader()
+        {
+            Console.WriteLine(@"
+                 __________________________________________________________
+                /                                                         /
+               /  WELCOME TO RETROSLICE ARCADE MANAGEMENT SYSTEM         /
+              /_________________________________________________________/");
+
+            Console.WriteLine("\n");
+        }
         static void Main(string[] args)
         {
-            Console.WriteLine("Welcome to RetroSlice!");
+            Console.Title = "RetroSlice Arcade Management System";
+            SetConsoleTheme();
+            ShowArcadeHeader();
 
             // Calling the menu option
             MenuOption();
