@@ -12,7 +12,6 @@ namespace RetroSlice
 {
     internal class Program
     {
-
         // Custom Class for storing Applicant Details
         public class Customer
         {
@@ -106,30 +105,30 @@ namespace RetroSlice
             }
         }
 
-        
         // Method for the menu
-
         public enum Menu
         {
             AddCustomerDetails = 1,
             CreditQualification = 2,
             CurrentBowlingAndArcadeStats = 3,
             Exit = 4,
-
         }
 
         public static void DisplayMenu()
         {
+            Console.ForegroundColor = ConsoleColor.Cyan;
+            Console.WriteLine("==========================================");
             Console.WriteLine("1. Add Customer Details");
-            Console.WriteLine("2. CreditQualification");
-            Console.WriteLine("3. CurrentBowlingAndArcadeStats");
+            Console.WriteLine("2. Credit Qualification");
+            Console.WriteLine("3. Current Bowling and Arcade Stats");
             Console.WriteLine("4. Exit");
+            Console.WriteLine("==========================================");
+            Console.ResetColor();
             Console.Write("Enter your choice: ");
         }
 
         public static void MenuOption()
         {
-            Console.ForegroundColor = ConsoleColor.Cyan;
             while (true)
             {
                 DisplayMenu();
@@ -139,23 +138,46 @@ namespace RetroSlice
                     {
                         case Menu.AddCustomerDetails:
                             ApplicantDetails();
-                            continue;
+                            break;
                         case Menu.CreditQualification:
-                            //CreditQualification();
+                            CreditQualification();
+                            break;
                         case Menu.CurrentBowlingAndArcadeStats:
-                            //CurrentBowlingAndArcadeStats(); 
+                            CurrentBowlingAndArcadeStats();
+                            break;
                         case Menu.Exit:
+                            Console.WriteLine("Thank you for using RetroSlice Arcade Management System! Goodbye!");
                             return;
                         default:
+                            Console.ForegroundColor = ConsoleColor.Red;
                             Console.WriteLine("Invalid choice, please try again.");
+                            Console.ResetColor();
                             break;
                     }
                 }
                 else
                 {
+                    Console.ForegroundColor = ConsoleColor.Red;
                     Console.WriteLine("Invalid input, please enter a valid menu option.");
+                    Console.ResetColor();
                 }
             }
+        }
+
+        private static void CreditQualification()
+        {
+            // Placeholder for CreditQualification logic
+            Console.ForegroundColor = ConsoleColor.Magenta;
+            Console.WriteLine("\nCredit Qualification feature coming soon!\n");
+            Console.ResetColor();
+        }
+
+        private static void CurrentBowlingAndArcadeStats()
+        {
+            // Placeholder for CurrentBowlingAndArcadeStats logic
+            Console.ForegroundColor = ConsoleColor.Magenta;
+            Console.WriteLine("\nCurrent Bowling and Arcade Stats feature coming soon!\n");
+            Console.ResetColor();
         }
 
         private static void SetConsoleTheme()
@@ -167,14 +189,24 @@ namespace RetroSlice
 
         private static void ShowArcadeHeader()
         {
+            Console.ForegroundColor = ConsoleColor.Yellow;
             Console.WriteLine(@"
-                 __________________________________________________________
-                /                                                         /
-               /  WELCOME TO RETROSLICE ARCADE MANAGEMENT SYSTEM         /
-              /_________________________________________________________/");
+                _________________________________________________________
+               /                                                        /
+              /                                                        /
+             /    ____            _             ____  _      _        /
+            /    |  _ \ ___ _ __ | |_ __ _     / ___|| |_ __| | __   /
+           /     | |_) / _ \ '_ \| __/ _` |    \___ \| __/ _` |/ /  /
+          /      |  _ <  __/ | | | || (_| |     ___) | || (_|   <  /
+         /       |_| \_\___|_| |_|\__\__,_|    |____/ \__\__,_|\_ /
+        /                                                        /
+       /________________________________________________________/
 
-            Console.WriteLine("\n");
+            ");
+            Console.ResetColor();
+            Console.WriteLine();
         }
+
         static void Main(string[] args)
         {
             Console.Title = "RetroSlice Arcade Management System";
@@ -188,3 +220,4 @@ namespace RetroSlice
         }
     }
 }
+
