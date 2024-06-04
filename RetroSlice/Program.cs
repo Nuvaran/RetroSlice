@@ -38,31 +38,31 @@ namespace RetroSlice
             {
                 Customer newCustomer = new Customer();
 
-                Console.Write("Enter your name: ");
+                Console.Write("\nEnter your name:" + " ");
                 newCustomer.name = Console.ReadLine();
 
-                Console.Write("Enter your age: ");
+                Console.Write("Enter your age:" + " ");
                 newCustomer.age = int.Parse(Console.ReadLine());
 
-                Console.Write("Enter your highest rank score: ");
+                Console.Write("Enter your highest rank score:" + " ");
                 newCustomer.highScoreRank = int.Parse(Console.ReadLine());
 
-                Console.Write("Enter the number of pizzas consumed since the first visit: ");
+                Console.Write("Enter the number of pizzas consumed since the first visit:" + " ");
                 newCustomer.noOfPizzasConsumed = int.Parse(Console.ReadLine());
 
-                Console.Write("Enter your bowling high score: ");
+                Console.Write("Enter your bowling high score:" + " ");
                 newCustomer.bowlingHighScore = int.Parse(Console.ReadLine());
 
-                Console.Write("Enter your favourite slush puppy flavor: ");
+                Console.Write("Enter your favourite slush puppy flavor:" + " ");
                 newCustomer.slushPuppyFlavor = Console.ReadLine();
 
-                Console.Write("Enter the number of slush puppies consumed since the first visit: ");
+                Console.Write("Enter the number of slush puppies consumed since the first visit:" + " ");
                 newCustomer.slushPuppiesConsumed = int.Parse(Console.ReadLine());
 
-                Console.Write("Are you employed? (true/false): ");
+                Console.Write("Are you employed? (true/false):" + " ");
                 newCustomer.isEmployed = bool.Parse(Console.ReadLine());
 
-                Console.Write("Enter the start date as a loyal customer (yyyy-MM-dd): ");
+                Console.Write("Enter the start date as a loyal customer (yyyy-MM-dd):" + " ");
                 newCustomer.startDate = DateTime.Parse(Console.ReadLine());
 
                 customers.Add(newCustomer);
@@ -102,6 +102,9 @@ namespace RetroSlice
                 {
                     continueAddingCustomers = false;
                 }
+
+                Console.Clear();
+                ShowArcadeHeader();
             }
         }
 
@@ -117,14 +120,16 @@ namespace RetroSlice
         public static void DisplayMenu()
         {
             Console.ForegroundColor = ConsoleColor.Cyan;
-            Console.WriteLine("==========================================");
-            Console.WriteLine("1. Add Customer Details");
-            Console.WriteLine("2. Credit Qualification");
-            Console.WriteLine("3. Current Bowling and Arcade Stats");
-            Console.WriteLine("4. Exit");
-            Console.WriteLine("==========================================");
+            Console.WriteLine(" ============================================");
+            Console.WriteLine("||                                          ||");
+            Console.WriteLine("||1. Add Customer Details                   ||");
+            Console.WriteLine("||2. Credit Qualification                   ||");
+            Console.WriteLine("||3. Current Bowling and Arcade Stats       ||");
+            Console.WriteLine("||4. Exit                                   ||");
+            Console.WriteLine("||                                          ||");
+            Console.WriteLine(" ============================================");
             Console.ResetColor();
-            Console.Write("Enter your choice: ");
+            Console.Write("\nEnter your choice:" + " ");
         }
 
         public static void MenuOption()
@@ -140,12 +145,19 @@ namespace RetroSlice
                             ApplicantDetails();
                             break;
                         case Menu.CreditQualification:
+                            Console.Clear();
+                            ShowArcadeHeader();
                             CreditQualification();
                             break;
                         case Menu.CurrentBowlingAndArcadeStats:
+                            Console.Clear();
+                            ShowArcadeHeader();
                             CurrentBowlingAndArcadeStats();
                             break;
                         case Menu.Exit:
+                            Console.Clear();
+                            ShowArcadeHeader();
+                            System.Threading.Thread.Sleep(1000);
                             Console.WriteLine("Thank you for using RetroSlice Arcade Management System! Goodbye!");
                             return;
                         default:
@@ -174,10 +186,39 @@ namespace RetroSlice
 
         private static void CurrentBowlingAndArcadeStats()
         {
-            // Placeholder for CurrentBowlingAndArcadeStats logic
             Console.ForegroundColor = ConsoleColor.Magenta;
-            Console.WriteLine("\nCurrent Bowling and Arcade Stats feature coming soon!\n");
-            Console.ResetColor();
+            Console.WriteLine("\nCurrent Bowling and Arcade Stats:");
+
+            Console.Write("Enter the name of the customer:" + " ");
+            string customerName = Console.ReadLine();
+
+            // Find the customer in the list
+            Customer customer = customers.FirstOrDefault(c => c.name.Equals(customerName, StringComparison.OrdinalIgnoreCase));
+
+            if (customer != null)
+            {
+                // Print table header
+                string header = string.Format(
+                 "| {0,-20} | {1,-15} | {2,-18} |",
+                 "\n Name", "High Score Rank", "Bowling High Scores"
+                 );
+
+                 Console.WriteLine(header);
+                 Console.WriteLine(new string('-', header.Length));
+
+                 // Print table row for the customer
+                 string row = string.Format(
+                 "| {0,-20} | {1,-15} | {2,-18} |",
+                 customer.name, customer.highScoreRank, customer.bowlingHighScore
+                 );
+    
+                 Console.WriteLine(row);
+            }
+            else
+            {
+                Console.WriteLine("Customer not found.");
+            }
+                Console.ResetColor();
         }
 
         private static void SetConsoleTheme()
@@ -191,12 +232,12 @@ namespace RetroSlice
         {
             Console.ForegroundColor = ConsoleColor.Yellow;
             Console.WriteLine(@"
- _____        _                 _____  _  _             
-| ___ \      | |               /  ___|| |(_)            
-| |_/ /  ___ | |_  _ __   ___  \ `--. | | _   ___   ___ 
-|    /  / _ \| __|| '__| / _ \  `--. \| || | / __| / _ \
-| |\ \ |  __/| |_ | |   | (_) |/\__/ /| || || (__ |  __/
-\_| \_| \___| \__||_|    \___/ \____/ |_||_| \___| \___|
+    _____        _                 _____  _  _             
+   | ___ \      | |               /  ___|| |(_)            
+   | |_/ /  ___ | |_  _ __   ___  \ `--. | | _   ___   ___ 
+   |    /  / _ \| __|| '__| / _ \  `--. \| || | / __| / _ \
+   | |\ \ |  __/| |_ | |   | (_) |/\__/ /| || || (__ |  __/
+   \_| \_| \___| \__||_|    \___/ \____/ |_||_| \___| \___|
 
             ");
             Console.ResetColor();
@@ -216,4 +257,6 @@ namespace RetroSlice
         }
     }
 }
+
+
 
