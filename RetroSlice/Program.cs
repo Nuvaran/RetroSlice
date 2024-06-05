@@ -12,7 +12,11 @@ namespace RetroSlice
 {
     internal class Program
     {
-        // Custom Class for storing Applicant Details
+        /**
+        stores details about a customer including their age, high score rank, number of pizzas consumed,
+        bowling high score, number of slush puppies consumed, employment status, name,
+        favorite slush puppy flavor, and start date as a loyal customer.
+        */
         public class Customer
         {
             public int age { get; set; }
@@ -26,13 +30,16 @@ namespace RetroSlice
             public DateTime startDate { get; set; }
         }
 
-        // Creates a list with the custom class properties for users to populate, the list is called customers
+        // "customers" -> A list to store all customer details.
         private static List<Customer> customers = new List<Customer>();
 
-        // Creates list used to store cutomers with tokens
+        // "customersWtokens" -> A list to store customers who qualify for game token credits.
         private static List<Customer> customersWtokens = new List<Customer>();
 
-        // Storing applicant's details in a collection method and displaying it
+        /**
+            This method captures and validates details for a new customer, storing them in the customers list. 
+            It also displays the list of customers and asks the user whether they want to add more customers.
+        */
         public static void ApplicantDetails()
         {
             bool continueAddingCustomers = true;
@@ -41,10 +48,7 @@ namespace RetroSlice
             {
                 Customer newCustomer = new Customer();
 
-                /**Console.Write("\nEnter your name:" + " ");
-                newCustomer.name = Console.ReadLine();*/
-
-                //getting the name
+                //// Validates and captures customer name
                 bool validName = false;
                 String name;
                 while (validName == false)
@@ -64,10 +68,7 @@ namespace RetroSlice
                     }
                 }
 
-                /**Console.Write("Enter your age:" + " ");
-                newCustomer.age = int.Parse(Console.ReadLine());*/
-
-                //getting the customer age
+                // Validates and captures customer age
                 bool validAge = false;
                 while (validAge == false)
                 {
@@ -86,10 +87,7 @@ namespace RetroSlice
                     }
                 }
 
-                /**Console.Write("Enter your highest rank score:" + " ");
-                newCustomer.highScoreRank = int.Parse(Console.ReadLine());*/
-
-                //Getting the users high score
+                // Validates and captures customer high score rank
                 bool validHighScoreRank = false;
                 while (validHighScoreRank == false)
                 {
@@ -108,10 +106,7 @@ namespace RetroSlice
                     }
                 }
 
-                /**Console.Write("Enter the number of pizzas consumed since the first visit:" + " ");
-                newCustomer.noOfPizzasConsumed = int.Parse(Console.ReadLine());*/
-
-                //Getting the pizzas consumed
+                // Validates and captures number of pizzas consumed
                 bool validPizzasConsumed = false;
                 while (validPizzasConsumed == false)
                 {
@@ -130,10 +125,7 @@ namespace RetroSlice
                     }
                 }
 
-                /**Console.Write("Enter your bowling high score:" + " ");
-                newCustomer.bowlingHighScore = int.Parse(Console.ReadLine());*/
-
-                //Getting the users bowling highscore
+                // Validates and captures customer bowling high score
                 bool validBowlingHighScore = false;
                 while (validBowlingHighScore == false)
                 {
@@ -152,10 +144,7 @@ namespace RetroSlice
                     }
                 }
 
-                /**Console.Write("Enter your favourite slush puppy flavor:" + " ");
-                newCustomer.slushPuppyFlavor = Console.ReadLine();*/
-
-                //getting the users favourite slush puppy flavour
+                // Validates and captures customer's favorite slush puppy flavor
                 bool validSlushPuppyFlavor = false;
                 String slushPuppyFlavour;
                 while (validSlushPuppyFlavor == false)
@@ -175,10 +164,7 @@ namespace RetroSlice
                     }
                 }
 
-                /**Console.Write("Enter the number of slush puppies consumed since the first visit:" + " ");
-                newCustomer.slushPuppiesConsumed = int.Parse(Console.ReadLine());*/
-
-                //getting the users amount of slush puppies consumed since first visit
+                // Validates and captures number of slush puppies consumed since first visit
                 bool validSlushPuppiesConsumed = false;
                 while (validSlushPuppiesConsumed == false)
                 {
@@ -197,10 +183,7 @@ namespace RetroSlice
                     }
                 }
 
-                /**Console.Write("Are you employed? (true/false):" + " ");
-                newCustomer.isEmployed = bool.Parse(Console.ReadLine());*/
-
-                //Changing message based on customers age, getting if their employed
+                // Validates and captures employment status and changes a message based on age
                 bool validEmployed = false;
                 bool isEmployed;
                 {
@@ -229,10 +212,7 @@ namespace RetroSlice
                     }
                 }
 
-                /**Console.Write("Enter the start date as a loyal customer (yyyy-MM-dd):" + " ");
-                newCustomer.startDate = DateTime.Parse(Console.ReadLine());*/
-
-                //Validating date entered
+                // Validates and captures start date as a loyal customer
                 bool validDate = false;
                 while (validDate == false)
                 {
@@ -256,6 +236,7 @@ namespace RetroSlice
                 Console.ForegroundColor = ConsoleColor.Green;
                 Console.WriteLine("\nCustomer added successfully!\n");
 
+                // Displaying list of customers in a formatted table
                 Console.ForegroundColor = ConsoleColor.Magenta;
                 Console.WriteLine("\nList of Customers:");
 
@@ -281,14 +262,10 @@ namespace RetroSlice
                     Console.WriteLine(row);
                 }
 
-                /**Console.Write("\nDo you want to add another customer? (Y/N): ");
-                string response = Console.ReadLine().ToUpper();
-
-                if (response != "Y")
-                {
-                    continueAddingCustomers = false;
-                }*/
-
+                /** 
+                    Asks the user if they want to add another customer,
+                    validates the response to check whether they entering the right response (either Y for yes or N for no)
+                */
                 bool validResponse = false;
                 while (validResponse == false)
                 {
@@ -316,7 +293,7 @@ namespace RetroSlice
             }
         }
 
-        // Method for the menu
+        // Method for the menu -> Used in the menuOptions method
         public enum Menu
         {
             AddCustomerDetails = 1,
@@ -325,6 +302,10 @@ namespace RetroSlice
             Exit = 4,
         }
 
+        /** 
+            Displays the main menu with options to add customer details, check credit qualification,
+            view current bowling and arcade stats, or exit the application.
+        */
         public static void DisplayMenu()
         {
             Console.ForegroundColor = ConsoleColor.Cyan;
@@ -339,6 +320,12 @@ namespace RetroSlice
             Console.ResetColor();
             Console.Write("\nEnter your choice:" + " ");
         }
+
+        /**
+            This method handles the user's choice that is displayed in the main menu,
+            Depending on the user's choice, it will call the AddCustomerDetails, CreditQualification, CurrentBowlingAndArcadeStats methods,
+            as well as the user can exit the program
+         */
         public static void MenuOption()
         {
             bool customerDetailsExist = false;
@@ -399,6 +386,11 @@ namespace RetroSlice
             }
         }
 
+        /**
+            The CreditQualification method checks each customer in the "customers" list to see if they qualify for the game token credits,
+            based on various criteria. Customers in the list that qualify for the game token credits are added to the customersWtokens list.
+        */
+
         private static int applicantsAccepted = 0, applicantsDenied = 0;
         private static void CreditQualification()
         {
@@ -427,6 +419,11 @@ namespace RetroSlice
             Console.ResetColor();
         }
 
+        /**
+            Displays the names of customers who qualify for game token credits, and counts,
+            the number of qualifying customers, and the number of non-qualifying customers and displays the count of qualifying,
+            customers and non-qualifying customers.
+        */
         private static void DisplayCreditQualification()
         {
             if (customersWtokens.Count == 0)
@@ -446,6 +443,10 @@ namespace RetroSlice
             }
         }
 
+        /**
+            This method asks the user for a customer name and displays the current stats for the customer's bowling and arcade stats,
+            in a table format.
+        */
         private static void CurrentBowlingAndArcadeStats()
         {
             Console.ForegroundColor = ConsoleColor.Magenta;
