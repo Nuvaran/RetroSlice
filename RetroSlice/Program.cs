@@ -29,6 +29,9 @@ namespace RetroSlice
         // Creates a list with the custom class properties for users to populate, the list is called customers
         private static List<Customer> customers = new List<Customer>();
 
+        // Creates list used to store cutomers with tokens
+        private static List<Customer> customersWtokens = new List<Customer>();
+
         // Storing applicant's details in a collection method and displaying it
         public static void ApplicantDetails()
         {
@@ -38,32 +41,215 @@ namespace RetroSlice
             {
                 Customer newCustomer = new Customer();
 
-                Console.Write("\nEnter your name:" + " ");
-                newCustomer.name = Console.ReadLine();
+                /**Console.Write("\nEnter your name:" + " ");
+                newCustomer.name = Console.ReadLine();*/
 
-                Console.Write("Enter your age:" + " ");
-                newCustomer.age = int.Parse(Console.ReadLine());
+                //getting the name
+                bool validName = false;
+                String name;
+                while (validName == false)
+                {
+                    Console.Write("Enter your name: ");
+                    name = Console.ReadLine();
+                    if ((!name.Equals("")))
+                    {
+                        newCustomer.name = name;
+                        validName = true;
+                    }
+                    else
+                    {
+                        Console.ForegroundColor = ConsoleColor.Red;
+                        Console.WriteLine("Invalid Answer! Please enter a name");
+                        Console.ResetColor();
+                    }
+                }
 
-                Console.Write("Enter your highest rank score:" + " ");
-                newCustomer.highScoreRank = int.Parse(Console.ReadLine());
+                /**Console.Write("Enter your age:" + " ");
+                newCustomer.age = int.Parse(Console.ReadLine());*/
 
-                Console.Write("Enter the number of pizzas consumed since the first visit:" + " ");
-                newCustomer.noOfPizzasConsumed = int.Parse(Console.ReadLine());
+                //getting the customer age
+                bool validAge = false;
+                while (validAge == false)
+                {
+                    Console.Write("Enter your age: ");
+                    int age;
+                    if (Int32.TryParse(Console.ReadLine(), out age) && (age >= 0) && age <= 120)
+                    {
+                        newCustomer.age = age;
+                        validAge = true;
+                    }
+                    else
+                    {
+                        Console.ForegroundColor = ConsoleColor.Red;
+                        Console.WriteLine("Invalid Answer! Please enter a valid age (0 -> 120)");
+                        Console.ResetColor();
+                    }
+                }
 
-                Console.Write("Enter your bowling high score:" + " ");
-                newCustomer.bowlingHighScore = int.Parse(Console.ReadLine());
+                /**Console.Write("Enter your highest rank score:" + " ");
+                newCustomer.highScoreRank = int.Parse(Console.ReadLine());*/
 
-                Console.Write("Enter your favourite slush puppy flavor:" + " ");
-                newCustomer.slushPuppyFlavor = Console.ReadLine();
+                //Getting the users high score
+                bool validHighScoreRank = false;
+                while (validHighScoreRank == false)
+                {
+                    Console.Write("Enter your highest rank score: ");
+                    int highScoreRank;
+                    if (Int32.TryParse(Console.ReadLine(), out highScoreRank) && (highScoreRank > 0))
+                    {
+                        newCustomer.highScoreRank = highScoreRank;
+                        validHighScoreRank = true;
+                    }
+                    else
+                    {
+                        Console.ForegroundColor = ConsoleColor.Red;
+                        Console.WriteLine("Invalid Answer! Please enter a score (0 -> 2000000)");
+                        Console.ResetColor();
+                    }
+                }
 
-                Console.Write("Enter the number of slush puppies consumed since the first visit:" + " ");
-                newCustomer.slushPuppiesConsumed = int.Parse(Console.ReadLine());
+                /**Console.Write("Enter the number of pizzas consumed since the first visit:" + " ");
+                newCustomer.noOfPizzasConsumed = int.Parse(Console.ReadLine());*/
 
-                Console.Write("Are you employed? (true/false):" + " ");
-                newCustomer.isEmployed = bool.Parse(Console.ReadLine());
+                //Getting the pizzas consumed
+                bool validPizzasConsumed = false;
+                while (validPizzasConsumed == false)
+                {
+                    Console.Write("Enter the number of pizzas consumed since the first visit: ");
+                    int noOfPizzasConsumed;
+                    if (Int32.TryParse(Console.ReadLine(), out noOfPizzasConsumed) && (noOfPizzasConsumed > 0))
+                    {
+                        newCustomer.noOfPizzasConsumed = noOfPizzasConsumed;
+                        validPizzasConsumed = true;
+                    }
+                    else
+                    {
+                        Console.ForegroundColor = ConsoleColor.Red;
+                        Console.WriteLine("Invalid Answer! Please enter a number (0 -> 2000000)");
+                        Console.ResetColor();
+                    }
+                }
 
-                Console.Write("Enter the start date as a loyal customer (yyyy-MM-dd):" + " ");
-                newCustomer.startDate = DateTime.Parse(Console.ReadLine());
+                /**Console.Write("Enter your bowling high score:" + " ");
+                newCustomer.bowlingHighScore = int.Parse(Console.ReadLine());*/
+
+                //Getting the users bowling highscore
+                bool validBowlingHighScore = false;
+                while (validBowlingHighScore == false)
+                {
+                    Console.Write("Enter your bowling high score: ");
+                    int bowlingHighScore;
+                    if (Int32.TryParse(Console.ReadLine(), out bowlingHighScore) && (bowlingHighScore > 0))
+                    {
+                        newCustomer.bowlingHighScore = bowlingHighScore;
+                        validBowlingHighScore = true;
+                    }
+                    else
+                    {
+                        Console.ForegroundColor = ConsoleColor.Red;
+                        Console.WriteLine("Invalid Answer! Please enter an number (0 -> 2000000)");
+                        Console.ResetColor();
+                    }
+                }
+
+                /**Console.Write("Enter your favourite slush puppy flavor:" + " ");
+                newCustomer.slushPuppyFlavor = Console.ReadLine();*/
+
+                //getting the users favourite slush puppy flavour
+                bool validSlushPuppyFlavor = false;
+                String slushPuppyFlavour;
+                while (validSlushPuppyFlavor == false)
+                {
+                    Console.Write("Enter your favourite slush puppy flavor: ");
+                    slushPuppyFlavour = Console.ReadLine();
+                    if ((!slushPuppyFlavour.Equals("")))
+                    {
+                        newCustomer.slushPuppyFlavor = slushPuppyFlavour;
+                        validSlushPuppyFlavor = true;
+                    }
+                    else
+                    {
+                        Console.ForegroundColor = ConsoleColor.Red;
+                        Console.WriteLine("Invalid Answer! Please enter a valid flavour");
+                        Console.ResetColor();
+                    }
+                }
+
+                /**Console.Write("Enter the number of slush puppies consumed since the first visit:" + " ");
+                newCustomer.slushPuppiesConsumed = int.Parse(Console.ReadLine());*/
+
+                //getting the users amount of slush puppies consumed since first visit
+                bool validSlushPuppiesConsumed = false;
+                while (validSlushPuppiesConsumed == false)
+                {
+                    Console.Write("Enter the number of slush puppies consumed since the first visit: ");
+                    int slushPuppiesConsumed;
+                    if (Int32.TryParse(Console.ReadLine(), out slushPuppiesConsumed) && (slushPuppiesConsumed > 0))
+                    {
+                        newCustomer.slushPuppiesConsumed = slushPuppiesConsumed;
+                        validSlushPuppiesConsumed = true;
+                    }
+                    else
+                    {
+                        Console.ForegroundColor = ConsoleColor.Red;
+                        Console.WriteLine("Invalid Answer! Please enter a number (0 -> 2000000)");
+                        Console.ResetColor();
+                    }
+                }
+
+                /**Console.Write("Are you employed? (true/false):" + " ");
+                newCustomer.isEmployed = bool.Parse(Console.ReadLine());*/
+
+                //Changing message based on customers age, getting if their employed
+                bool validEmployed = false;
+                bool isEmployed;
+                {
+                    while (validEmployed == false)
+                    {
+                        if (newCustomer.age < 18)
+                        {
+                            Console.Write("Are your parents employed? (true/false): ");
+                        }
+                        else
+                        if (newCustomer.age >= 18)
+                        {
+                            Console.Write("Are you employed? (true/false): ");
+                        }
+                        if (Boolean.TryParse(Console.ReadLine(), out isEmployed))
+                        {
+                            newCustomer.isEmployed = isEmployed;
+                            validEmployed = true;
+                        }
+                        else
+                        {
+                            Console.ForegroundColor = ConsoleColor.Red;
+                            Console.WriteLine("Invalid Answer! Please enter true or false");
+                            Console.ResetColor();
+                        }
+                    }
+                }
+
+                /**Console.Write("Enter the start date as a loyal customer (yyyy-MM-dd):" + " ");
+                newCustomer.startDate = DateTime.Parse(Console.ReadLine());*/
+
+                //Validating date entered
+                bool validDate = false;
+                while (validDate == false)
+                {
+                    Console.Write("Enter the start date as a loyal customer (yyyy-MM-dd): ");
+                    DateTime startDate;
+                    if (DateTime.TryParse(Console.ReadLine(), out startDate) && (DateTime.Now.Year - startDate.Year < newCustomer.age && (startDate <= DateTime.Now)))
+                    {
+                        newCustomer.startDate = startDate;
+                        validDate = true;
+                    }
+                    else
+                    {
+                        Console.ForegroundColor = ConsoleColor.Red;
+                        Console.WriteLine("Invalid Date! Please see format for reference, and make sure the date is valid relevant to your age");
+                        Console.ResetColor();
+                    }
+                }
 
                 customers.Add(newCustomer);
 
@@ -95,12 +281,34 @@ namespace RetroSlice
                     Console.WriteLine(row);
                 }
 
-                Console.Write("\nDo you want to add another customer? (Y/N): ");
+                /**Console.Write("\nDo you want to add another customer? (Y/N): ");
                 string response = Console.ReadLine().ToUpper();
 
                 if (response != "Y")
                 {
                     continueAddingCustomers = false;
+                }*/
+
+                bool validResponse = false;
+                while (validResponse == false)
+                {
+                    Console.Write("\nDo you want to add another customer? (Y/N): ");
+                    string response = Console.ReadLine().ToUpper();
+                    if (response.Equals("Y"))
+                    {
+                        continueAddingCustomers = true;
+                        validResponse = true;
+                    }
+                    else
+                    if (response.Equals("N"))
+                    {
+                        continueAddingCustomers = false;
+                        validResponse = true;
+                    }
+                    else
+                    {
+                        Console.WriteLine("Please enter Y or N");
+                    }
                 }
 
                 Console.Clear();
@@ -131,9 +339,9 @@ namespace RetroSlice
             Console.ResetColor();
             Console.Write("\nEnter your choice:" + " ");
         }
-
         public static void MenuOption()
         {
+            bool customerDetailsExist = false;
             while (true)
             {
                 DisplayMenu();
@@ -142,12 +350,26 @@ namespace RetroSlice
                     switch (choice)
                     {
                         case Menu.AddCustomerDetails:
+                            Console.Clear();
+                            ShowArcadeHeader();
                             ApplicantDetails();
+                            customerDetailsExist = true;
                             break;
                         case Menu.CreditQualification:
                             Console.Clear();
                             ShowArcadeHeader();
-                            CreditQualification();
+                            if (customerDetailsExist == true)
+                            {
+                                CreditQualification();
+                                DisplayCreditQualification();
+                            }
+                            else
+                            {
+                                Console.ForegroundColor = ConsoleColor.Red;
+                                Console.WriteLine("Add customer details first!");
+                                Console.ResetColor();
+
+                            }
                             break;
                         case Menu.CurrentBowlingAndArcadeStats:
                             Console.Clear();
@@ -157,9 +379,10 @@ namespace RetroSlice
                         case Menu.Exit:
                             Console.Clear();
                             ShowArcadeHeader();
-                            System.Threading.Thread.Sleep(1000);
                             Console.WriteLine("Thank you for using RetroSlice Arcade Management System! Goodbye!");
-                            return;
+                            System.Threading.Thread.Sleep(2000);
+                            System.Environment.Exit(0);
+                            break;
                         default:
                             Console.ForegroundColor = ConsoleColor.Red;
                             Console.WriteLine("Invalid choice, please try again.");
@@ -176,12 +399,51 @@ namespace RetroSlice
             }
         }
 
+        private static int applicantsAccepted = 0, applicantsDenied = 0;
         private static void CreditQualification()
         {
-            // Placeholder for CreditQualification logic
             Console.ForegroundColor = ConsoleColor.Magenta;
-            Console.WriteLine("\nCredit Qualification feature coming soon!\n");
+            applicantsAccepted = 0;
+            applicantsDenied = 0;
+            for (int i = 0; i < customers.Count; i++)
+            {
+                int yearsLoyal = DateTime.Now.Year - customers[i].startDate.Year;
+                int monthsLoyal = ((yearsLoyal * 12) + (DateTime.Now.Month - customers[i].startDate.Month));
+                if (customers[i].isEmployed == true //Checking token qualification
+                   && yearsLoyal >= 2
+                   && (customers[i].highScoreRank > 2000 || customers[i].bowlingHighScore > 1200)
+                   && customers[i].noOfPizzasConsumed / monthsLoyal >= 3
+                   && customers[i].slushPuppiesConsumed / monthsLoyal >= 4
+                   && (!(customers[i].slushPuppyFlavor.Equals("Gooey Gulp Galore"))))
+                {
+                    customersWtokens.Add(customers[i]);
+                    applicantsAccepted = applicantsAccepted + 1;
+                }
+                else
+                {
+                    applicantsDenied = applicantsDenied + 1;
+                }
+            }
             Console.ResetColor();
+        }
+
+        private static void DisplayCreditQualification()
+        {
+            if (customersWtokens.Count == 0)
+            {
+                Console.WriteLine("No customers qualify for token credit!");
+                Console.WriteLine("Amount of people that qualify for token credit: " + applicantsAccepted);
+                Console.WriteLine("Amount of people that don't qualify for token credit: " + applicantsDenied);
+            }
+            else
+            {
+                for (int i = 0; i < customersWtokens.Count; i++)
+                {
+                    Console.WriteLine("Customer: " + customersWtokens[i].name + " qualifies for game token credit!");
+                }
+                Console.WriteLine("Amount of people that qualify for token credit: " + applicantsAccepted);
+                Console.WriteLine("Amount of people that don't qualify for token credit: " + applicantsDenied);
+            }
         }
 
         private static void CurrentBowlingAndArcadeStats()
@@ -216,7 +478,7 @@ namespace RetroSlice
             }
             else
             {
-                Console.WriteLine("Customer not found.");
+                Console.WriteLine("\nCustomer not found.");
             }
                 Console.ResetColor();
         }
