@@ -1,0 +1,54 @@
+﻿<Window x:Class="RetroSlice_V2.EditCustomerModal"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:RetroSlice_V2"
+        mc:Ignorable="d"
+        Title="EditCustomerModal" Height="600" Width="600">
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <TextBlock Text="Edit Customer Details" FontSize="20" FontWeight="Bold" Margin="10"/>
+
+        <StackPanel Grid.Row="1" Margin="10">
+            <TextBlock Text="Enter Name"/>
+            <TextBox x:Name="txtName" Margin="5" Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}"/>
+
+            <TextBlock Text="Enter Age"/>
+            <TextBox x:Name="txtAge" Margin="5" Text="{Binding Age, UpdateSourceTrigger=PropertyChanged}"/>
+
+            <TextBlock Text="Enter High Score Rank"/>
+            <TextBox x:Name="txtHighScoreRank" Margin="5" Text="{Binding HighScoreRank, UpdateSourceTrigger=PropertyChanged}"/>
+
+            <TextBlock Text="Enter No of Pizzas Consumed"/>
+            <TextBox x:Name="txtNoOfPizzasConsumed" Margin="5" Text="{Binding NoOfPizzasConsumed, UpdateSourceTrigger=PropertyChanged}"/>
+
+            <TextBlock Text="Enter Bowling High Score"/>
+            <TextBox x:Name="txtBowlingHighScore" Margin="5" Text="{Binding BowlingHighScore, UpdateSourceTrigger=PropertyChanged}" />
+
+
+            <TextBlock Text="Enter Slush Puppy Flavor"/>
+            <TextBox x:Name="txtSlushPuppyFlavor" Margin="5" Text="{Binding SlushPuppyFlavor, UpdateSourceTrigger=PropertyChanged}"/>
+
+            <TextBlock Text="Enter No of Slush Puppies Consumed"/>
+            <TextBox x:Name="txtSlushPuppiesConsumed" Margin="5" Text="{Binding SlushPuppiesConsumed, UpdateSourceTrigger=PropertyChanged}"/>
+
+            <TextBlock Text="Employed?"/>
+            <CheckBox x:Name="chkIsEmployed" Margin="5" IsChecked="{Binding IsEmployed, UpdateSourceTrigger=PropertyChanged}"/>
+
+            <TextBlock Text="Enter a date" />
+            <DatePicker x:Name="dpStartDate" SelectedDate="{Binding StartDate, UpdateSourceTrigger=PropertyChanged}" Margin="5"/>
+        </StackPanel>
+
+        <StackPanel Grid.Row="3" Orientation="Horizontal" HorizontalAlignment="Right" Margin="10">
+            <Button Content="Save" Width="75" Margin="5" Click="Save_Click" Style="{StaticResource menuButton}"/>
+            <Button Content="Cancel" Width="75" Margin="5" Click="Cancel_Click" Style="{StaticResource menuButton}"/>
+        </StackPanel>
+    </Grid>
+</Window>
