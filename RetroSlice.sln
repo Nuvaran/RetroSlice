@@ -5,6 +5,8 @@ VisualStudioVersion = 17.10.34707.107
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RetroSlice", "RetroSlice\RetroSlice.csproj", "{4D8243E4-B228-46D5-AF63-B2FD2DB4A93B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RetroSlice V2", "RetroSlice V2\RetroSlice V2.csproj", "{00AE404A-BC4B-441C-A39E-A4EF7217ADAD}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{4D8243E4-B228-46D5-AF63-B2FD2DB4A93B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4D8243E4-B228-46D5-AF63-B2FD2DB4A93B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4D8243E4-B228-46D5-AF63-B2FD2DB4A93B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{00AE404A-BC4B-441C-A39E-A4EF7217ADAD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{00AE404A-BC4B-441C-A39E-A4EF7217ADAD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{00AE404A-BC4B-441C-A39E-A4EF7217ADAD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{00AE404A-BC4B-441C-A39E-A4EF7217ADAD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
