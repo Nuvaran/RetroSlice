@@ -7,6 +7,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using static RetroSlice.Program;
+using System.Threading;
 
 namespace RetroSlice
 {
@@ -17,7 +18,7 @@ namespace RetroSlice
         bowling high score, number of slush puppies consumed, employment status, name,
         favorite slush puppy flavor, and start date as a loyal customer.
         */
-        public class Customer
+        public class Customer //Creates class customer
         {
             public int age { get; set; }
             public int highScoreRank { get; set; }
@@ -35,6 +36,13 @@ namespace RetroSlice
 
         // "customersWtokens" -> A list to store customers who qualify for game token credits.
         private static List<Customer> customersWtokens = new List<Customer>();
+
+        // Creates list that will be sorted by age
+        private static List<Customer> customersSortedByAge = new List<Customer>();
+
+        // Creates list that will be sorted by age
+        private static List<Customer> customersUnlimitedTokens = new List<Customer>();
+
 
         /**
             This method captures and validates details for a new customer, storing them in the customers list. 
@@ -64,6 +72,7 @@ namespace RetroSlice
                     {
                         Console.ForegroundColor = ConsoleColor.Red;
                         Console.WriteLine("Invalid Answer! Please enter a name");
+                        Console.Beep();
                         Console.ResetColor();
                     }
                 }
@@ -83,6 +92,7 @@ namespace RetroSlice
                     {
                         Console.ForegroundColor = ConsoleColor.Red;
                         Console.WriteLine("Invalid Answer! Please enter a valid age (0 -> 120)");
+                        Console.Beep();
                         Console.ResetColor();
                     }
                 }
@@ -102,6 +112,7 @@ namespace RetroSlice
                     {
                         Console.ForegroundColor = ConsoleColor.Red;
                         Console.WriteLine("Invalid Answer! Please enter a score (0 -> 2000000)");
+                        Console.Beep();
                         Console.ResetColor();
                     }
                 }
@@ -121,6 +132,7 @@ namespace RetroSlice
                     {
                         Console.ForegroundColor = ConsoleColor.Red;
                         Console.WriteLine("Invalid Answer! Please enter a number (0 -> 2000000)");
+                        Console.Beep();
                         Console.ResetColor();
                     }
                 }
@@ -140,6 +152,7 @@ namespace RetroSlice
                     {
                         Console.ForegroundColor = ConsoleColor.Red;
                         Console.WriteLine("Invalid Answer! Please enter an number (0 -> 2000000)");
+                        Console.Beep();
                         Console.ResetColor();
                     }
                 }
@@ -160,6 +173,7 @@ namespace RetroSlice
                     {
                         Console.ForegroundColor = ConsoleColor.Red;
                         Console.WriteLine("Invalid Answer! Please enter a valid flavour");
+                        Console.Beep();
                         Console.ResetColor();
                     }
                 }
@@ -179,6 +193,7 @@ namespace RetroSlice
                     {
                         Console.ForegroundColor = ConsoleColor.Red;
                         Console.WriteLine("Invalid Answer! Please enter a number (0 -> 2000000)");
+                        Console.Beep();
                         Console.ResetColor();
                     }
                 }
@@ -207,6 +222,7 @@ namespace RetroSlice
                         {
                             Console.ForegroundColor = ConsoleColor.Red;
                             Console.WriteLine("Invalid Answer! Please enter true or false");
+                            Console.Beep();
                             Console.ResetColor();
                         }
                     }
@@ -227,6 +243,7 @@ namespace RetroSlice
                     {
                         Console.ForegroundColor = ConsoleColor.Red;
                         Console.WriteLine("Invalid Date! Please see format for reference, and make sure the date is valid relevant to your age");
+                        Console.Beep();
                         Console.ResetColor();
                     }
                 }
@@ -285,9 +302,9 @@ namespace RetroSlice
                     else
                     {
                         Console.WriteLine("Please enter Y or N");
+                        Console.Beep();
                     }
                 }
-
                 Console.Clear();
                 ShowArcadeHeader();
             }
@@ -299,7 +316,10 @@ namespace RetroSlice
             AddCustomerDetails = 1,
             CreditQualification = 2,
             CurrentBowlingAndArcadeStats = 3,
-            Exit = 4,
+            GetHighestAndLowestAge = 4,
+            GetAveragePizzaConsumed = 5,
+            GetUnlimitedCredit = 6,
+            Exit = 7,
         }
 
         /** 
@@ -310,12 +330,13 @@ namespace RetroSlice
         {
             Console.ForegroundColor = ConsoleColor.Cyan;
             Console.WriteLine(" ============================================");
-            Console.WriteLine("||                                          ||");
             Console.WriteLine("||1. Add Customer Details                   ||");
             Console.WriteLine("||2. Credit Qualification                   ||");
             Console.WriteLine("||3. Current Bowling and Arcade Stats       ||");
-            Console.WriteLine("||4. Exit                                   ||");
-            Console.WriteLine("||                                          ||");
+            Console.WriteLine("||4. Display Youngest and Highest Age       ||");
+            Console.WriteLine("||5. Display Average Pizzas Consumed        ||");
+            Console.WriteLine("||6. Display Customers w/ Unlimited Credit  ||");
+            Console.WriteLine("||7. Exit                                   ||");
             Console.WriteLine(" ============================================");
             Console.ResetColor();
             Console.Write("\nEnter your choice:" + " ");
@@ -337,13 +358,13 @@ namespace RetroSlice
                     switch (choice)
                     {
                         case Menu.AddCustomerDetails:
-                            Console.Clear();
+                            Loading(1);
                             ShowArcadeHeader();
                             ApplicantDetails();
                             customerDetailsExist = true;
                             break;
                         case Menu.CreditQualification:
-                            Console.Clear();
+                            Loading(1);
                             ShowArcadeHeader();
                             if (customerDetailsExist == true)
                             {
@@ -354,17 +375,63 @@ namespace RetroSlice
                             {
                                 Console.ForegroundColor = ConsoleColor.Red;
                                 Console.WriteLine("Add customer details first!");
+                                Console.Beep();
                                 Console.ResetColor();
 
                             }
                             break;
                         case Menu.CurrentBowlingAndArcadeStats:
-                            Console.Clear();
+                            Loading(1);
                             ShowArcadeHeader();
                             CurrentBowlingAndArcadeStats();
                             break;
+                        case Menu.GetHighestAndLowestAge:
+                            Loading(1);
+                            ShowArcadeHeader();
+                            if (customerDetailsExist == true)
+                            {
+                                GetHighestAndLowestAge();
+                            }
+                            else
+                            {
+                                Console.ForegroundColor = ConsoleColor.Red;
+                                Console.WriteLine("Add customer details first!");
+                                Console.Beep();
+                                Console.ResetColor();
+                            }
+                            break;
+                        case Menu.GetAveragePizzaConsumed:
+                            Loading(1);
+                            ShowArcadeHeader();
+                            if (customerDetailsExist == true)
+                            {
+                                GetAveragePizzasConsumed();
+                            }
+                            else
+                            {
+                                Console.ForegroundColor = ConsoleColor.Red;
+                                Console.WriteLine("Add customer details first!");
+                                Console.Beep();
+                                Console.ResetColor();
+                            }
+                            break;
+                        case Menu.GetUnlimitedCredit:
+                            Loading(1);
+                            ShowArcadeHeader();
+                            if (customerDetailsExist == true)
+                            {
+                                UnlimitedCredit();
+                            }
+                            else
+                            {
+                                Console.ForegroundColor = ConsoleColor.Red;
+                                Console.WriteLine("Add customer details first!");
+                                Console.Beep();
+                                Console.ResetColor();
+                            }
+                            break;
                         case Menu.Exit:
-                            Console.Clear();
+                            Loading(1);
                             ShowArcadeHeader();
                             Console.WriteLine("Thank you for using RetroSlice Arcade Management System! Goodbye!");
                             System.Threading.Thread.Sleep(2000);
@@ -373,6 +440,7 @@ namespace RetroSlice
                         default:
                             Console.ForegroundColor = ConsoleColor.Red;
                             Console.WriteLine("Invalid choice, please try again.");
+                            Console.Beep();
                             Console.ResetColor();
                             break;
                     }
@@ -381,6 +449,7 @@ namespace RetroSlice
                 {
                     Console.ForegroundColor = ConsoleColor.Red;
                     Console.WriteLine("Invalid input, please enter a valid menu option.");
+                    Console.Beep();
                     Console.ResetColor();
                 }
             }
@@ -466,29 +535,111 @@ namespace RetroSlice
                  "\n Name", "High Score Rank", "Bowling High Scores"
                  );
 
-                 Console.WriteLine(header);
-                 Console.WriteLine(new string('-', header.Length));
+                Console.WriteLine(header);
+                Console.WriteLine(new string('-', header.Length));
 
-                 // Print table row for the customer
-                 string row = string.Format(
-                 "| {0,-20} | {1,-15} | {2,-18} |",
-                 customer.name, customer.highScoreRank, customer.bowlingHighScore
-                 );
-    
-                 Console.WriteLine(row);
+                // Print table row for the customer
+                string row = string.Format(
+                "| {0,-20} | {1,-15} | {2,-18} |",
+                customer.name, customer.highScoreRank, customer.bowlingHighScore
+                );
+
+                Console.WriteLine(row);
             }
             else
             {
                 Console.WriteLine("\nCustomer not found.");
             }
-                Console.ResetColor();
+            Console.ResetColor();
         }
 
-        private static void SetConsoleTheme()
+        private static void GetHighestAndLowestAge() //Finds the highest and lowest age values among customers, then displays them
+        {
+            for (int i = 0; i < customers.Count; i++)
+            {
+                customersSortedByAge.Add(customers[i]);
+            }
+            int temp;
+            int arrLength = customersSortedByAge.Count;
+            for (int i = 0; i < arrLength - 1; i++)
+            {
+                for (int j = i + 1; j < arrLength; j++)
+                {
+                    if (customersSortedByAge[i].age > customersSortedByAge[j].age)
+                    {
+                        temp = customersSortedByAge[i].age;
+                        customersSortedByAge[i].age = customersSortedByAge[j].age;
+                        customersSortedByAge[j].age = temp;
+                    }
+                }
+            }
+            Console.WriteLine("The youngest applicant is: " + customersSortedByAge[0].age + " years old");
+            Console.WriteLine("The oldest applicant is: " + customersSortedByAge[customersSortedByAge.Count - 1].age + " years old");
+        }
+
+        private static void GetAveragePizzasConsumed() //Finds the average pizzas consumed of the customers, then displays it
+        {
+            int totalPizzasConsumed = 0;
+            double averagePizzasConsumed = 0;
+            for (int i = 0; i < customers.Count; i++)
+            {
+                totalPizzasConsumed = totalPizzasConsumed + customers[i].noOfPizzasConsumed;
+            }
+            averagePizzasConsumed = totalPizzasConsumed / customers.Count;
+            Console.WriteLine("The average amount of pizzas consumed: " + averagePizzasConsumed);
+        }
+
+        private static void UnlimitedCredit() //Finds the customers who qualify for unlimited Credit, then displays their name
+        {
+            Console.ForegroundColor = ConsoleColor.Magenta;
+            applicantsAccepted = 0;
+            applicantsDenied = 0;
+            for (int i = 0; i < customers.Count; i++)
+            {
+                int yearsLoyal = DateTime.Now.Year - customers[i].startDate.Year;
+                if (yearsLoyal > 10 || (yearsLoyal == 10 && customers[i].startDate.Month <= DateTime.Now.Month)) //Checking token qualification
+                {
+                    customersUnlimitedTokens.Add(customers[i]);
+                }
+            }
+            if (customersUnlimitedTokens.Count > 0)
+            {
+                for (int i = 0; i < customersUnlimitedTokens.Count; i++)
+                {
+                    {
+                        Console.WriteLine(customersUnlimitedTokens[i].name + " has unlimited credit!");
+                    }
+                }
+            }
+            else
+            {
+                Console.WriteLine("No one qualifies for unlimited credit!");
+            }
+            Console.ResetColor();
+        }
+
+        private static void SetConsoleTheme() //Sets the console theme
         {
             Console.BackgroundColor = ConsoleColor.Black;
-            Console.ForegroundColor = ConsoleColor.Green;
+            //Console.ForegroundColor = ConsoleColor.Green;
             Console.Clear();
+        }
+
+        private static void Loading(int timesLoaded)
+        {
+            Console.Clear();
+            for (int i = 0; i < timesLoaded; i++)
+            {
+                Console.WriteLine("Loading.");
+                Thread.Sleep(300);
+                Console.Clear();
+                Console.WriteLine("Loading..");
+                Thread.Sleep(300);
+                Console.Clear();
+                Console.WriteLine("Loading...");
+                Thread.Sleep(300);
+                Console.Clear();
+            }
         }
 
         private static void ShowArcadeHeader()
@@ -509,6 +660,7 @@ namespace RetroSlice
 
         static void Main(string[] args)
         {
+            Loading(3);
             Console.Title = "RetroSlice Arcade Management System";
             SetConsoleTheme();
             ShowArcadeHeader();

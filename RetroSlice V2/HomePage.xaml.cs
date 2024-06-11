@@ -20,7 +20,7 @@ namespace RetroSlice_V2
     /// </summary>
     public partial class HomePage : Window
     {
-        private static List<Customer> customers = new List<Customer>();
+        public static List<Customer> customers = new List<Customer>();
         private CreditQualification creditQualificationScreen;
         public HomePage()
         {
@@ -201,6 +201,13 @@ namespace RetroSlice_V2
             {
                 NavigateTo(menuItem);
             }
+        }
+
+        public static event Action CustomersUpdated;
+
+        private void NotifyCustomersUpdated()
+        {
+            CustomersUpdated?.Invoke();
         }
 
         private void EditCustomer_Click(object sender, RoutedEventArgs e)
