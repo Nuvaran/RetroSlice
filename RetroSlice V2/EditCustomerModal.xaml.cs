@@ -1,28 +1,14 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 using static RetroSlice_V2.HomePage;
 
 namespace RetroSlice_V2
 {
-    /// <summary>
-    /// Interaction logic for EditCustomerModal.xaml
-    /// </summary>
     public partial class EditCustomerModal : Window
     {
-        public Customer EditedCustomer { get; private set; }
         public Customer Customer { get; set; }
-        public EditCustomerModal( Customer customer)
+
+        public EditCustomerModal(Customer customer)
         {
             InitializeComponent();
             Customer = customer;
@@ -42,15 +28,15 @@ namespace RetroSlice_V2
 
         private void Save_Click(object sender, RoutedEventArgs e)
         {
-            EditedCustomer.Name = txtName.Text;
-            EditedCustomer.Age = int.Parse(txtAge.Text);
-            EditedCustomer.HighScoreRank = int.Parse(txtHighScoreRank.Text);
-            EditedCustomer.NoOfPizzasConsumed = int.Parse(txtNoOfPizzasConsumed.Text);
-            EditedCustomer.BowlingHighScore = int.Parse(txtBowlingHighScore.Text);
-            EditedCustomer.SlushPuppyFlavor = txtSlushPuppyFlavor.Text;
-            EditedCustomer.SlushPuppiesConsumed = int.Parse(txtSlushPuppiesConsumed.Text);
-            EditedCustomer.IsEmployed = chkIsEmployed.IsChecked ?? false;
-            EditedCustomer.StartDate = dpStartDate.SelectedDate ?? DateTime.Now;
+            Customer.Name = txtName.Text;
+            Customer.Age = int.Parse(txtAge.Text);
+            Customer.HighScoreRank = int.Parse(txtHighScoreRank.Text);
+            Customer.NoOfPizzasConsumed = int.Parse(txtNoOfPizzasConsumed.Text);
+            Customer.BowlingHighScore = int.Parse(txtBowlingHighScore.Text);
+            Customer.SlushPuppyFlavor = txtSlushPuppyFlavor.Text;
+            Customer.SlushPuppiesConsumed = int.Parse(txtSlushPuppiesConsumed.Text);
+            Customer.IsEmployed = chkIsEmployed.IsChecked ?? false;
+            Customer.StartDate = dpStartDate.SelectedDate ?? DateTime.Now;
 
             this.DialogResult = true;
         }
@@ -61,3 +47,4 @@ namespace RetroSlice_V2
         }
     }
 }
+

@@ -22,6 +22,8 @@ namespace RetroSlice_V2
     {
         public static List<Customer> customers = new List<Customer>();
         private CreditQualification creditQualificationScreen;
+
+        private List<string> notifications = new List<string>();
         public HomePage()
         {
             InitializeComponent();
@@ -29,6 +31,8 @@ namespace RetroSlice_V2
             dgCustomers.ItemsSource = customers;
             creditQualificationScreen = new CreditQualification(customers);
             UpdateCounterTitle();
+            UpdatePageNumbers();
+            DisplayCurrentPage();
         }
 
         public class Customer
@@ -43,6 +47,36 @@ namespace RetroSlice_V2
             public string SlushPuppyFlavor { get; set; }
             public DateTime StartDate { get; set; }
         }
+
+       /** private void BtnBell_Click(object sender, RoutedEventArgs e)
+        {
+            NotificationsModal.Visibility = NotificationsModal.Visibility == Visibility.Visible ? Visibility.Collapsed : Visibility.Visible;
+        }
+
+        private void BtnMarkAsRead_Click(object sender, RoutedEventArgs e)
+        {
+            notifications.Clear();
+            UpdateNotificationsList();
+            popupAddCustomer.IsOpen = false;
+        }
+
+        private void AddNotification(string message)
+        {
+            notifications.Add(message);
+            UpdateNotificationsList();
+        }
+
+        private void UpdateNotificationsList()
+        {
+            NotificationsList.Items.Clear();
+            foreach (var notification in notifications)
+            {
+                NotificationsList.Items.Add(new TextBlock { Text = notification, Margin = new Thickness(5) });
+            }
+        }*/
+
+        private int _currentPage = 1;
+        private const int _itemsPerPage = 50;
 
         private void UpdateCustomerList()
         {
@@ -115,6 +149,65 @@ namespace RetroSlice_V2
             }
         }
 
+        private void BtnPreviousPage_Click(object sender, RoutedEventArgs e)
+        {
+            if (_currentPage > 1)
+            {
+                _currentPage--;
+                DisplayCurrentPage();
+            }
+        }
+
+        private void BtnNextPage_Click(object sender, RoutedEventArgs e)
+        {
+            if (_currentPage < (customers.Count + _itemsPerPage - 1) / _itemsPerPage)
+            {
+                _currentPage++;
+                DisplayCurrentPage();
+            }
+        }
+
+        private void BtnPageNumber_Click(object sender, RoutedEventArgs e)
+        {
+            if (int.TryParse((sender as Button)?.Content.ToString(), out int pageNumber))
+            {
+                _currentPage = pageNumber;
+                DisplayCurrentPage();
+            }
+        }
+
+        private void UpdatePageNumbers()
+        {
+            PageNumberButtons.Items.Clear();
+            int totalPages = (customers.Count + _itemsPerPage - 1) / _itemsPerPage;
+            for (int i = 1; i <= totalPages; i++)
+            {
+                Button pageButton = new Button
+                {
+                    Content = i.ToString(),
+                    Style = (Style)FindResource("pagingButton"),
+                    Background = (i == _currentPage) ? new SolidColorBrush((Color)ColorConverter.ConvertFromString("#7950f2")) : new SolidColorBrush(Colors.White),
+                    Foreground = (i == _currentPage) ? new SolidColorBrush(Colors.White) : new SolidColorBrush((Color)ColorConverter.ConvertFromString("#6c7682"))
+                };
+                pageButton.Click += BtnPageNumber_Click;
+                PageNumberButtons.Items.Add(pageButton);
+            }
+        }
+
+        private void DisplayCurrentPage()
+        {
+            int skip = (_currentPage - 1) * _itemsPerPage;
+            dgCustomers.ItemsSource = customers.Skip(skip).Take(_itemsPerPage).ToList();
+            UpdatePageNumbers();
+        }
+
+        protected void OnPropertyChanged(string name)
+        {
+            PropertyChanged?.Invoke(this, new System.ComponentModel.PropertyChangedEventArgs(name));
+        }
+
+        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+
         private void btnCancel_Click(object sender, RoutedEventArgs e)
         {
             popupAddCustomer.IsOpen = false;
@@ -122,7 +215,7 @@ namespace RetroSlice_V2
 
         private void UpdateCounterTitle()
         {
-           string lblCustomerCount = $"Total Customers: {customers.Count}";
+            txtCustomerCount.Text = $"Total Customers: {customers.Count}";
         }
 
         public void SaveCustomersToExcel(List<Customer> customers)
@@ -212,19 +305,13 @@ namespace RetroSlice_V2
 
         private void EditCustomer_Click(object sender, RoutedEventArgs e)
         {
-            if (dgCustomers.SelectedItem != null && dgCustomers.SelectedItem is Customer selectedCustomer)
+            if (dgCustomers.SelectedItem is Customer customer)
             {
-                EditCustomerModal editModal = new EditCustomerModal(selectedCustomer);
-                if (editModal.ShowDialog() == true)
+                var editCustomerModal = new EditCustomerModal(customer);
+                if (editCustomerModal.ShowDialog() == true)
                 {
-                    // Update the customer list and data grid
-                    int index = customers.IndexOf(selectedCustomer);
-                    if (index >= 0)
-                    {
-                        customers[index] = editModal.EditedCustomer;
-                        SaveCustomersToExcel(customers);
-                        //LoadCustomersToDataGrid();
-                    }
+                    dgCustomers.ItemsSource = null; // Refresh the DataGrid
+                    dgCustomers.ItemsSource = customers;
                 }
             }
             else
