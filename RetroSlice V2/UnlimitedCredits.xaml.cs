@@ -20,34 +20,44 @@ namespace RetroSlice_V2
     /// </summary>
     public partial class UnlimitedCredits : Window
     {
-        private List<Customer> customersUnlimitedTokens = new List<Customer>();
+        private static List<Customer> customersWithUnlimitedCredit = new List<Customer>();
         public UnlimitedCredits()
         {
             InitializeComponent();
+            CustomersUpdated += LoadUnlimitedCreditCustomers;
+            LoadUnlimitedCreditCustomers();
         }
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            HomePage.CustomersUpdated += LoadUnlimitedCredit;
+            CustomersUpdated += LoadUnlimitedCredit;
             LoadUnlimitedCredit();
         }
 
         private void LoadUnlimitedCredit()
         {
-            customersUnlimitedTokens = HomePage.customers
+            customersWithUnlimitedCredit = customers
                 .Where(c => (DateTime.Now.Year - c.StartDate.Year > 10) ||
                             (DateTime.Now.Year - c.StartDate.Year == 10 && c.StartDate.Month <= DateTime.Now.Month))
                 .ToList();
 
-            dgUnlimitedCredit.ItemsSource = customersUnlimitedTokens;
+            dgUnlimitedCredit.ItemsSource = customersWithUnlimitedCredit;
 
-            txtUnlimitedCreditCount.Text = $"Number of customers with unlimited credit: {customersUnlimitedTokens.Count}";
+            txtUnlimitedCreditCount.Text = $"Number of customers with unlimited credit: {customersWithUnlimitedCredit.Count}";
+        }
+
+        private void LoadUnlimitedCreditCustomers()
+        {
+            customersWithUnlimitedCredit = GetCustomersWithUnlimitedCredit(customers);
+            dgUnlimitedCredit.ItemsSource = null; // Clear existing data
+            dgUnlimitedCredit.ItemsSource = customersWithUnlimitedCredit;
+            txtUnlimitedCreditCount.Text = $"Customers with Unlimited Credit: {customersWithUnlimitedCredit.Count}";
         }
 
 
         private void Window_Closed(object sender, EventArgs e)
         {
-            HomePage.CustomersUpdated -= LoadUnlimitedCredit;
+            CustomersUpdated -= LoadUnlimitedCredit;
         }
 
         private void MenuButton_Click(object sender, RoutedEventArgs e)
@@ -87,7 +97,7 @@ namespace RetroSlice_V2
                     break;
                 case MenuItems.AdditionalFeatures:
                     // Navigate to Additional Features screen
-                    AdditionalFeatures additionalFeatures = new AdditionalFeatures();
+                    AdditionalFeatures additionalFeatures = new AdditionalFeatures(customers);
                     additionalFeatures.Show();
                     this.Close();
                     break;

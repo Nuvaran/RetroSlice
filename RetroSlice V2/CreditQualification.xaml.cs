@@ -1,78 +1,80 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 using static RetroSlice_V2.HomePage;
 
 namespace RetroSlice_V2
 {
-    /// <summary>
-    /// Interaction logic for CreditQualification.xaml
-    /// </summary>
     public partial class CreditQualification : Window
     {
-        private List<Customer> customers;
-        private List<Customer> customersWtokens;
+        private List<Customer> customersWtokens = new List<Customer>();
+        private List<Customer> customersWithoutTokens = new List<Customer>();
         private int applicantsAccepted;
         private int applicantsDenied;
+
         public CreditQualification(List<Customer> customers)
         {
             InitializeComponent();
-            this.customers = customers;
-            this.customersWtokens = new List<Customer>();
-            PerformCreditQualification();
+            LoadCreditQualification();
             UpdateUI();
         }
 
-        public void PerformCreditQualification()
+        private void Window_Loaded(object sender, RoutedEventArgs e)
+        {
+            CustomersUpdated += LoadCreditQualification;
+            LoadCreditQualification();
+            UpdateUI();
+        }
+
+        private void Window_Closed(object sender, EventArgs e)
+        {
+            CustomersUpdated -= LoadCreditQualification;
+        }
+
+        public void LoadCreditQualification()
         {
             customersWtokens.Clear();
+            customersWithoutTokens.Clear();
             applicantsAccepted = 0;
             applicantsDenied = 0;
 
-            for (int i = 0; i < customers.Count; i++)
+            foreach (var customer in customers)
             {
-                int yearsLoyal = DateTime.Now.Year - customers[i].StartDate.Year;
-                int monthsLoyal = ((yearsLoyal * 12) + (DateTime.Now.Month - customers[i].StartDate.Month));
-                if (customers[i].IsEmployed == true //Checking token qualification
+                int yearsLoyal = DateTime.Now.Year - customer.StartDate.Year;
+                int monthsLoyal = ((yearsLoyal * 12) + (DateTime.Now.Month - customer.StartDate.Month));
+
+                if (customer.IsEmployed == true // Checking token qualification
                    && yearsLoyal >= 2
-                   && (customers[i].HighScoreRank > 2000 || customers[i].BowlingHighScore > 1200)
-                   && customers[i].NoOfPizzasConsumed / monthsLoyal >= 3
-                   && customers[i].SlushPuppiesConsumed / monthsLoyal >= 4
-                   && (!(customers[i].SlushPuppyFlavor.Equals("Gooey Gulp Galore"))))
+                   && (customer.HighScoreRank > 2000 || customer.BowlingHighScore > 1200)
+                   && customer.NoOfPizzasConsumed / monthsLoyal >= 3
+                   && customer.SlushPuppiesConsumed / monthsLoyal >= 4
+                   && (!(customer.SlushPuppyFlavor.Equals("Gooey Gulp Galore"))))
                 {
-                    customersWtokens.Add(customers[i]);
-                    applicantsAccepted = applicantsAccepted + 1;
+                    customersWtokens.Add(customer);
+                    applicantsAccepted++;
                 }
                 else
                 {
-                    applicantsDenied = applicantsDenied + 1;
+                    customersWithoutTokens.Add(customer);
+                    applicantsDenied++;
                 }
             }
+            UpdateUI();
         }
 
         public void UpdateUI()
         {
+            dgQualifiedCustomers.ItemsSource = null;
             dgQualifiedCustomers.ItemsSource = customersWtokens;
-            dgNonQualifiedCustomers.ItemsSource = customers.Except(customersWtokens).ToList();
+
+            dgNonQualifiedCustomers.ItemsSource = null;
+            dgNonQualifiedCustomers.ItemsSource = customersWithoutTokens;
+
             txtQualifiedCount.Text = applicantsAccepted.ToString();
             txtNonQualifiedCount.Text = applicantsDenied.ToString();
-        }
-
-        private void btnHome_Click(object sender, RoutedEventArgs e)
-        {
-            HomePage homePage = new HomePage();
-            homePage.Show();
-            this.Close();
         }
 
         private void MenuButton_Click(object sender, RoutedEventArgs e)
@@ -93,26 +95,22 @@ namespace RetroSlice_V2
                     this.Close();
                     break;
                 case MenuItems.CreditQualification:
-                    // Navigate to Credit Qualification screen
                     CreditQualification creditQualification = new CreditQualification(customers);
                     creditQualification.Show();
                     this.Close();
                     break;
                 case MenuItems.SortingAges:
-                    // Navigate to Sorting Ages screen
                     SortingAges sortingAges = new SortingAges();
                     sortingAges.Show();
                     this.Close();
                     break;
                 case MenuItems.UnlimitedCredits:
-                    // Navigate to Unlimited Credits screen
                     UnlimitedCredits unlimitedCredits = new UnlimitedCredits();
                     unlimitedCredits.Show();
                     this.Close();
                     break;
                 case MenuItems.AdditionalFeatures:
-                    // Navigate to Additional Features screen
-                    AdditionalFeatures additionalFeatures = new AdditionalFeatures();
+                    AdditionalFeatures additionalFeatures = new AdditionalFeatures(customers);
                     additionalFeatures.Show();
                     this.Close();
                     break;
@@ -142,6 +140,7 @@ namespace RetroSlice_V2
                     this.WindowState = WindowState.Normal;
                     this.Width = 1080;
                     this.Height = 720;
+                    isMaximized = false;
                 }
                 else
                 {

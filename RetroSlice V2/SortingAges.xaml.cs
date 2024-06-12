@@ -24,19 +24,19 @@ namespace RetroSlice_V2
         public SortingAges()
         {
             InitializeComponent();
-            HomePage.CustomersUpdated += LoadSortedAges;
+            CustomersUpdated += LoadSortedAges;
             LoadSortedAges();
         }
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            HomePage.CustomersUpdated += LoadSortedAges;
+            CustomersUpdated += LoadSortedAges;
             LoadSortedAges();
         }
 
         private void Window_Closed(object sender, System.EventArgs e)
         {
-            HomePage.CustomersUpdated -= LoadSortedAges;
+            CustomersUpdated -= LoadSortedAges;
         }
 
         private void LoadSortedAges()
@@ -94,7 +94,7 @@ namespace RetroSlice_V2
                     break;
                 case MenuItems.AdditionalFeatures:
                     // Navigate to Additional Features screen
-                    AdditionalFeatures additionalFeatures = new AdditionalFeatures();
+                    AdditionalFeatures additionalFeatures = new AdditionalFeatures(customers);
                     additionalFeatures.Show();
                     this.Close();
                     break;

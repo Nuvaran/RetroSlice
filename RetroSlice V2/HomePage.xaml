@@ -40,17 +40,6 @@
                     <RowDefinition Height="auto"/>
                 </Grid.RowDefinitions>
 
-                <!--Search Textbox-->
-                <Grid Width="300" HorizontalAlignment="left">
-                    <TextBlock Margin="20 0" VerticalAlignment="Center" Foreground="#b0b9c6" IsHitTestVisible="False"
-                               Panel.ZIndex="1" Text="Search Here ..."
-                               Visibility="{Binding ElementName=txtSearch, Path=Text, Converter={StaticResource BoolToVis}}"/>
-                    <TextBox x:Name="txtSearch" Style="{StaticResource textboxSearch}"/>
-
-                    <Icon:PackIconMaterial Kind="Magnify" Width="15" Height="15" VerticalAlignment="Center"
-                                               Margin="0 0 15 0" Foreground="#b0bcd6" HorizontalAlignment="Right"/>
-                </Grid>
-
                 <!--Top Buttons-->
                 <Button Style="{StaticResource topButton}" Margin="0 0 20 0" Background="#dcdcdc" HorizontalAlignment="Right">
                     <Icon:PackIconMaterial Kind="Cog"/>
@@ -83,7 +72,7 @@
                 </StackPanel>
 
                 <!--Counter Title-->
-                <TextBlock Text="0 Customers" Grid.Row="4" FontSize="18" FontWeight="SemiBold"
+                <TextBlock x:Name= "lblCustomerCount" Text="Customers: 0" Grid.Row="4" FontSize="18" FontWeight="SemiBold"
                            Foreground="#121518" HorizontalAlignment="Left" VerticalAlignment="Center"/>
 
                 <TextBlock Text="Filter By" Grid.Row="4" FontSize="18" FontWeight="SemiBold" Margin="0 0 215 0"
@@ -152,8 +141,8 @@
                             <DatePicker x:Name="dpStartDate" SelectedDate="{Binding StartDate}" />
 
                             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                                <Button Style="{StaticResource menuButton}" x:Name="btnSubmit" Content="Submit" Click="btnSubmit_Click" Margin="5"/>
-                                <Button Style="{StaticResource menuButton}" x:Name="btnCancel" Content="Cancel" Click="btnCancel_Click" Margin="5"/>
+                                <Button Style="{StaticResource addButton}" x:Name="btnSubmit" Content="Submit" Click="btnSubmit_Click" Margin="10"/>
+                                <Button Style="{StaticResource addButton}" x:Name="btnCancel" Content="Cancel" Click="btnCancel_Click" Margin="10"/>
                             </StackPanel>
                         </StackPanel>
                     </Border>

@@ -98,7 +98,7 @@
                     <TextBlock Text="Customers Who Qualify: " x:Name="txtUnlimitedCreditCount" FontSize="16" FontWeight="Bold" Margin="0 10 10 0"/>
                     <DataGrid x:Name="dgUnlimitedCredit" AutoGenerateColumns="False" Height="300">
                         <DataGrid.Columns>
-                            <DataGridTextColumn Header="Name" Binding="{Binding name}" Width="*"/>
+                            <DataGridTextColumn Header="Name" Binding="{Binding Name}" Width="*"/>
                         </DataGrid.Columns>
                     </DataGrid>
 

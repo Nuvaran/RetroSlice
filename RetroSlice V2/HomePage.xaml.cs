@@ -48,7 +48,7 @@ namespace RetroSlice_V2
         {
             dgCustomers.ItemsSource = null;
             dgCustomers.ItemsSource = customers;
-            creditQualificationScreen.PerformCreditQualification();
+            creditQualificationScreen.LoadCreditQualification();
             creditQualificationScreen.UpdateUI();
         }
 
@@ -122,7 +122,7 @@ namespace RetroSlice_V2
 
         private void UpdateCounterTitle()
         {
-            this.Title = $"HomePage - Total Customers: {customers.Count}";
+           string lblCustomerCount = $"Total Customers: {customers.Count}";
         }
 
         public void SaveCustomersToExcel(List<Customer> customers)
@@ -262,6 +262,22 @@ namespace RetroSlice_V2
                 }
             }
         }
+
+        public static List<Customer> GetCustomersWithUnlimitedCredit(List<Customer> customers)
+        {
+            List<Customer> customersWithUnlimitedCredit = new List<Customer>();
+
+            foreach (var customer in customers)
+            {
+                int yearsLoyal = DateTime.Now.Year - customer.StartDate.Year;
+                if (yearsLoyal > 10 || (yearsLoyal == 10 && customer.StartDate.Month <= DateTime.Now.Month))
+                {
+                    customersWithUnlimitedCredit.Add(customer);
+                }
+            }
+
+            return customersWithUnlimitedCredit;
+        }
         private void NavigateTo(MenuItems menuItem)
         {
             switch (menuItem)
@@ -288,7 +304,7 @@ namespace RetroSlice_V2
                     break;
                 case MenuItems.AdditionalFeatures:
                     // Navigate to Additional Features screen
-                    AdditionalFeatures additionalFeatures = new AdditionalFeatures();
+                    AdditionalFeatures additionalFeatures = new AdditionalFeatures(customers);
                     additionalFeatures.Show();
                     this.Close();
                     break;
